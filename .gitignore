@@ -23,5 +23,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # virtual environment
-
 env/
+
+# django
+__pycache__
+db.sqlite3
