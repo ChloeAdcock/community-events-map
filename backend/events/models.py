@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 def no_past(value):
     now = datetime.now()
@@ -13,4 +14,5 @@ class Event(models.Model):
     date_time = models.DateTimeField(validators=[no_past])
     latitute = models.DecimalField(max_digits=9, decimal_places=6)
     longitute = models.DecimalField(max_digits=9, decimal_places=6)
-    creator = models.ForeignKey('user_profile.UserProfile', related_name='events', on_delete=models.CASCADE, null=True)
+    creator = models.ForeignKey(User, related_name='events', on_delete=models.CASCADE, null=True)
+    attendes = models.ManyToManyField(User, related_name='events_attending')
