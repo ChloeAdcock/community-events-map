@@ -2,8 +2,6 @@ from events.models import Event
 from rest_framework import permissions, generics
 from .serializers import EventSerializer
 
-# Lead Viewset
-
 class EventCreateView(generics.CreateAPIView):
     serializer_class = EventSerializer
     permission_classes = [
