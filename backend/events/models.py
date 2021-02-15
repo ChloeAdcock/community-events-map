@@ -15,4 +15,3 @@ class Event(models.Model):
     latitute = models.DecimalField(max_digits=9, decimal_places=6)
     longitute = models.DecimalField(max_digits=9, decimal_places=6)
     creator = models.ForeignKey(User, related_name='events', on_delete=models.CASCADE, null=True)
-    attendes = models.ManyToManyField(User, related_name='events_attending')
