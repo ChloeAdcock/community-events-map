@@ -12,6 +12,7 @@ class EventCreateView(generics.CreateAPIView):
         serializer.save(owner=self.request.user)
 
 class EventListview(generics.ListAPIView):
+    permission_classes = (permissions.AllowAny,)
     serializer_class = EventSerializer
     queryset = Event.objects.all()
 
