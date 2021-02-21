@@ -4,10 +4,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-function Navbar() {
+function Navbar(props) {
     return (
         <div>
-            <AppBar position='fixed'>
+            <AppBar position='fixed' marginBottom='1%'>
                 <Toolbar>
                     <Typography variant='h6'>
                         Community Events
@@ -16,6 +16,8 @@ function Navbar() {
                     <Button color='inherit'>Login</Button>
                 </Toolbar>
             </AppBar>
+            {/* Empty toolbar to prevent content being rendered under navbar */}
+            <Toolbar />
         </div>
     )
 }
