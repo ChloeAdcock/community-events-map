@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 function Navbar() {
     return (
         <div>
-            <AppBar position='fixed' marginBottom='1%'>
+            <AppBar position='fixed'>
                 <Toolbar>
                     <Typography variant='h6'>
                         Community Events
