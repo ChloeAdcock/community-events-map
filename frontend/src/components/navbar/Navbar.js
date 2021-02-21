@@ -4,7 +4,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-function Navbar(props) {
+function Navbar() {
     return (
         <div>
             <AppBar position='fixed' marginBottom='1%'>
