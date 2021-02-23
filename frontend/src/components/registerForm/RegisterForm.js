@@ -28,6 +28,7 @@ function RegisterForm() {
 
     }
 
+    // Must not already exist in the database
     const validUsername = () => {
 
     }
@@ -57,21 +58,32 @@ function RegisterForm() {
                 </Typography>
             <Textfield
                 label='Username'
+                error={validUsername}
+                onChange={e => setUsername(e.target.value)}
+                helperText='Username must be at least 6 characters'
                 variant='outlined'
                 required />
             <Textfield
                 label='Email'
                 variant='outlined'
+                onChange={e => setEmail(e.target.value)}
+                helperText='Must be a valid email'
                 type='email'
                 required />
             <Textfield
                 label='Password'
                 type='password'
+                error={validPassword}
+                onChange={e => setPassword(e.target.value)}
+                helperText='Passwords must be at least 8 characters and contain a number'
                 variant='outlined'
                 required />
             <Textfield
                 label='Confirm password'
                 type='password'
+                onChange={e => setConfirmPassword(e.target.value)}
+                error={passwordsMatch}
+                helperText='Passwords must match'
                 variant='outlined'
                 required />
             <Button
