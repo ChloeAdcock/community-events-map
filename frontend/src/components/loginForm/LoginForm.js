@@ -32,6 +32,7 @@ function LoginForm() {
                 required />
             <Textfield
                 onChange={e => setPassword(e.target.value)}
+                type='password'
                 label='Password'
                 variant='outlined'
                 required />

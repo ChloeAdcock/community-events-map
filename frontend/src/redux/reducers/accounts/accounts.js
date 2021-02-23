@@ -10,7 +10,7 @@ function accountsReducer (state = initialState, action) {
         case LOGGED_IN:
             return({
                 ...state,
-                currentUser: payload.user,
+                currentUser: action.payload.user,
                 error: false
             });
         case LOGIN_ERROR:
