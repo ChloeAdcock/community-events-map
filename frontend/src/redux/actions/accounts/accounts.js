@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { LOGGED_IN, LOGIN_ERROR } from '../types';
+import {
+    LOGGED_IN,
+    LOGIN_ERROR,
+    USER_REGISTERED,
+    REGISTER_ERROR
+} from '../types';
 
 export const login = (data) => (dispatch) => {
     return axios
@@ -14,6 +19,24 @@ export const login = (data) => (dispatch) => {
         .catch(err => {
             dispatch({
                 type: LOGIN_ERROR,
+                payload: err
+            })
+        })
+}
+
+export const register = (data) => (dispatch) => {
+    return axios
+        .post('http://127.0.0.1:8000/accounts/register/', data)
+        .then(res => {
+            localStorage.setItem('token', res.data.token);
+            dispatch({
+                type: USER_REGISTERED,
+                payload: res.data
+            });
+        })
+        .catch(err => {
+            dispatch({
+                type: REGISTER_ERROR,
                 payload: err
             })
         })

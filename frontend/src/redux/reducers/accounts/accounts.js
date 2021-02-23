@@ -1,20 +1,27 @@
-import { LOGGED_IN, LOGIN_ERROR } from '../../actions/types';
+import {
+    LOGGED_IN,
+    LOGIN_ERROR,
+    USER_REGISTERED,
+    REGISTER_ERROR
+} from '../../actions/types';
 
 const initialState = {
     currentUser: null,
     error: null
 }
 
-function accountsReducer (state = initialState, action) {
-    switch(action.type){
+function accountsReducer(state = initialState, action) {
+    switch (action.type) {
+        case USER_REGISTERED:
         case LOGGED_IN:
-            return({
+            return ({
                 ...state,
                 currentUser: action.payload.user,
                 error: false
             });
+        case REGISTER_ERROR:
         case LOGIN_ERROR:
-            return({
+            return ({
                 ...state,
                 error: true
             });

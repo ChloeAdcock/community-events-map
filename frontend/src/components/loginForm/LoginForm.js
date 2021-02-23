@@ -26,7 +26,7 @@ function LoginForm() {
         return <Redirect to='/map' />
     } else {
         return (
-            <div>
+            <form onSubmit={handleSubmit}>
                 <Typography
                     varient='h1'>
                     Login
@@ -44,10 +44,10 @@ function LoginForm() {
                     required />
                 {errorState ? <Typography>Incorrect username or password</Typography> : <div />}
                 <Button
-                    onClick={handleSubmit}>
+                    type='submit'>
                     Submit
                     </Button>
-            </div>
+            </form>
         )
     }
 }
