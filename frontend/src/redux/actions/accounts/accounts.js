@@ -25,10 +25,12 @@ export const login = (data) => (dispatch) => {
 }
 
 export const register = (data) => (dispatch) => {
+    console.log('Registering');
     return axios
         .post('http://127.0.0.1:8000/accounts/register/', data)
         .then(res => {
             localStorage.setItem('token', res.data.token);
+            console.log(res);
             dispatch({
                 type: USER_REGISTERED,
                 payload: res.data

@@ -6,41 +6,85 @@ import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../redux/actions/accounts/accounts';
 
+// Sort out when to validate text fields
 function RegisterForm() {
 
     const dispatch = useDispatch();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [fieldError, setFieldError] = useState({
+        username: false,
+        email: false,
+        password: false,
+        confirmPassword: false
+    });
     const [confirmPassword, setConfirmPassword] = useState("");
     const errorState = useSelector(state => state.accounts.error);
     const user = useSelector(state => state.accounts.currentUser);
 
     const passwordsMatch = () => {
-        if (password === confirmPassword) {
-            return true
+        if (password !== confirmPassword) {
+            setFieldError({
+                ...fieldError,
+                ...{ confirmPassword: true }
+            })
         } else {
-            return false
+            setFieldError({
+                ...fieldError,
+                ...{ confirmPassword: false }
+            })
         }
     }
 
+    const validEmail = () => {
+        // Letters then @ then letters then full stop then letters
+        if (!email.match(/^[^@]+@[^@]+\.[^@]+$/)) {
+            setFieldError({
+                ...fieldError,
+                ...{ email: true }
+            })
+        } else {
+            setFieldError({
+                ...fieldError,
+                ...{ email: false }
+            })
+        }
+    }
     const validPassword = () => {
-
+        // Alphanumeric, must have a number and a letter, 8-15 characters
+        if (!password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/)) {
+            setFieldError({
+                ...fieldError,
+                ...{ password: true }
+            })
+        } else {
+            setFieldError({
+                ...fieldError,
+                ...{ password: false }
+            })
+        }
     }
 
     // Must not already exist in the database
-    const validUsername = () => {
-
-    }
-
-    const isValid = () => {
-        if (passwordsMatch && validPassword && validUsername) {
-            return true
+    const validateUsername = () => {
+        // Alphanumeric between 5 and 10 characters
+        if (!username.match(/^[a-zA-Z0-9]{5,10}$/)) {
+            setFieldError({
+                ...fieldError,
+                ...{ username: true }
+            })
+        } else {
+            setFieldError({
+                ...fieldError,
+                ...{ username: false }
+            })
         }
     }
 
     const handleSubmit = (e) => {
-        if (isValid) {
+        if (Object.values(fieldError).indexOf(true) === -1) {
+            console.log('No errors');
             e.preventDefault();
             dispatch(register({
                 username: username,
@@ -50,48 +94,57 @@ function RegisterForm() {
         }
     }
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <Typography
-                varient='h1'>
-                Register
+    if (!errorState && user) {
+        return <Redirect to='/map' />
+    } else {
+        return (
+            <form onSubmit={handleSubmit}>
+                <Typography
+                    varient='h1'>
+                    Register
                 </Typography>
-            <Textfield
-                label='Username'
-                error={validUsername}
-                onChange={e => setUsername(e.target.value)}
-                helperText='Username must be at least 6 characters'
-                variant='outlined'
-                required />
-            <Textfield
-                label='Email'
-                variant='outlined'
-                onChange={e => setEmail(e.target.value)}
-                helperText='Must be a valid email'
-                type='email'
-                required />
-            <Textfield
-                label='Password'
-                type='password'
-                error={validPassword}
-                onChange={e => setPassword(e.target.value)}
-                helperText='Passwords must be at least 8 characters and contain a number'
-                variant='outlined'
-                required />
-            <Textfield
-                label='Confirm password'
-                type='password'
-                onChange={e => setConfirmPassword(e.target.value)}
-                error={passwordsMatch}
-                helperText='Passwords must match'
-                variant='outlined'
-                required />
-            <Button
-            type='submit'>
-                Submit
+                <Textfield
+                    label='Username'
+                    value={username}
+                    onBlur={validateUsername}
+                    error={fieldError.username}
+                    onChange={e => setUsername(e.target.value)}
+                    variant='outlined'
+                    required />
+                <Textfield
+                    label='Email'
+                    error={fieldError.email}
+                    onBlur={validEmail}
+                    value={email}
+                    variant='outlined'
+                    onChange={e => setEmail(e.target.value)}
+                    type='email'
+                    required />
+                <Textfield
+                    label='Password'
+                    type='password'
+                    error={fieldError.password}
+                    onBlur={validPassword}
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    variant='outlined'
+                    required />
+                <Textfield
+                    label='Confirm password'
+                    type='password'
+                    value={confirmPassword}
+                    onChange={e => setConfirmPassword(e.target.value)}
+                    error={fieldError.confirmPassword}
+                    onBlur={passwordsMatch}
+                    variant='outlined'
+                    required />
+                <Button
+                    type='submit'>
+                    Submit
                 </Button>
-        </form>
-    )
+            </form>
+        )
+    }
 }
 
 export default RegisterForm;

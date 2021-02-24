@@ -13,6 +13,11 @@ const initialState = {
 function accountsReducer(state = initialState, action) {
     switch (action.type) {
         case USER_REGISTERED:
+            return ({
+                ...state,
+                currentUser: action.payload.username,
+                error: false
+            });
         case LOGGED_IN:
             return ({
                 ...state,
