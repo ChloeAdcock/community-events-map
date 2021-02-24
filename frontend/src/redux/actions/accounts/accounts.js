@@ -5,49 +5,45 @@ import {
     USER_REGISTERED,
     REGISTER_ERROR,
     LOGGED_OUT,
-    LOGOUT_ERROR
+    LOGOUT_ERROR,
+    USER_AUTHENTICATED,
+    USER_ERROR
 } from '../types';
 
-export const login = (data) => (dispatch) => {
-    return axios
-        .post('http://127.0.0.1:8000/accounts/login/', data)
-        .then(res => {
-            localStorage.setItem('token', res.data.token);
-            dispatch({
-                type: LOGGED_IN,
-                payload: res.data
-            });
+export const login = (data) => async (dispatch) => {
+    try {
+        const res = await axios.post('http://127.0.0.1:8000/accounts/login/', data);
+        localStorage.setItem('token', res.data.token);
+        dispatch({
+            type: LOGGED_IN,
+            payload: res.data
+        });
+    } catch (err) {
+        dispatch({
+            type: LOGIN_ERROR,
+            payload: err
         })
-        .catch(err => {
-            dispatch({
-                type: LOGIN_ERROR,
-                payload: err
-            })
-        })
+    }
 }
 
-export const register = (data) => (dispatch) => {
-    console.log('Registering');
-    return axios
-        .post('http://127.0.0.1:8000/accounts/register/', data)
-        .then(res => {
-            localStorage.setItem('token', res.data.token);
-            console.log(res);
-            dispatch({
-                type: USER_REGISTERED,
-                payload: res.data
-            });
+export const register = (data) => async (dispatch) => {
+    try {
+        const res = await axios.post('http://127.0.0.1:8000/accounts/register/', data);
+        localStorage.setItem('token', res.data.token);
+        dispatch({
+            type: USER_REGISTERED,
+            payload: res.data
+        });
+    } catch (err) {
+        dispatch({
+            type: REGISTER_ERROR,
+            payload: err
         })
-        .catch(err => {
-            dispatch({
-                type: REGISTER_ERROR,
-                payload: err
-            })
-        })
+    }
 }
 
 export const logout = () => (dispatch) => {
-    try{
+    try {
         localStorage.removeItem('token');
         dispatch({
             type: LOGGED_OUT
@@ -55,6 +51,25 @@ export const logout = () => (dispatch) => {
     } catch (err) {
         dispatch({
             type: LOGOUT_ERROR,
+            payload: err
+        })
+    }
+}
+
+export const currentUser = () => async (dispatch) => {
+    try {
+        const res = await axios.get('http://127.0.0.1:8000/accounts/current_user/', {
+            headers: {
+                Authorization: `JWT ${localStorage.getItem('token')}`
+            }
+        });
+        dispatch({
+            type: USER_AUTHENTICATED,
+            payload: res.data
+        });
+    } catch (err) {
+        dispatch({
+            type: USER_ERROR,
             payload: err
         })
     }

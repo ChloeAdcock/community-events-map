@@ -4,7 +4,9 @@ import {
     USER_REGISTERED,
     REGISTER_ERROR,
     LOGGED_OUT,
-    LOGOUT_ERROR
+    LOGOUT_ERROR,
+    USER_AUTHENTICATED,
+    USER_ERROR
 } from '../../actions/types';
 
 const initialState = {
@@ -20,6 +22,12 @@ function accountsReducer(state = initialState, action) {
                 currentUser: action.payload.username,
                 error: false
             });
+        case USER_AUTHENTICATED:
+            return ({
+                ...state,
+                currentUser: action.payload.username,
+                error: false
+            })
         case LOGGED_IN:
             return ({
                 ...state,
@@ -35,6 +43,7 @@ function accountsReducer(state = initialState, action) {
         case REGISTER_ERROR:
         case LOGIN_ERROR:
         case LOGOUT_ERROR:
+        case USER_ERROR:
             return ({
                 ...state,
                 error: true
