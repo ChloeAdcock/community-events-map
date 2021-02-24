@@ -1,4 +1,5 @@
 import React from 'react';
+import ProtectedRoute from './components/protectedRoute/ProtectedRoute';
 import Navbar from './components/navbar/Navbar';
 import MapContainer from './components/mapContainer/MapContainer';
 import LoginForm from './components/loginForm/LoginForm';
