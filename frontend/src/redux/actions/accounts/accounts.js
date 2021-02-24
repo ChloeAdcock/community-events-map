@@ -3,7 +3,9 @@ import {
     LOGGED_IN,
     LOGIN_ERROR,
     USER_REGISTERED,
-    REGISTER_ERROR
+    REGISTER_ERROR,
+    LOGGED_OUT,
+    LOGOUT_ERROR
 } from '../types';
 
 export const login = (data) => (dispatch) => {
@@ -43,3 +45,18 @@ export const register = (data) => (dispatch) => {
             })
         })
 }
+
+export const logout = () => (dispatch) => {
+    try{
+        localStorage.removeItem('token');
+        dispatch({
+            type: LOGGED_OUT
+        })
+    } catch (err) {
+        dispatch({
+            type: LOGOUT_ERROR,
+            payload: err
+        })
+    }
+}
+

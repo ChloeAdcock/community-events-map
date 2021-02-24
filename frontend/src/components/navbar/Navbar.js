@@ -26,6 +26,12 @@ function Navbar() {
                         color='inherit'>
                         Register
                             </Button>
+                    <Button
+                        component={Link}
+                        to='/login'
+                        color='inherit'>
+                        Logout
+                            </Button>
                 </Toolbar>
             </AppBar>
             {/* Empty toolbar to prevent content being rendered under navbar */}
