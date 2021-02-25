@@ -84,7 +84,6 @@ function RegisterForm() {
 
     const handleSubmit = (e) => {
         if (Object.values(fieldError).indexOf(true) === -1) {
-            console.log('No errors');
             e.preventDefault();
             dispatch(register({
                 username: username,
