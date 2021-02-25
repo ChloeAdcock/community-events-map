@@ -11,7 +11,8 @@ import {
 
 const initialState = {
     currentUser: null,
-    error: null
+    error: null,
+    notAuthenticated: null
 }
 
 function accountsReducer(state = initialState, action) {
@@ -43,10 +44,14 @@ function accountsReducer(state = initialState, action) {
         case REGISTER_ERROR:
         case LOGIN_ERROR:
         case LOGOUT_ERROR:
-        case USER_ERROR:
             return ({
                 ...state,
                 error: true
+            });
+        case USER_ERROR:
+            return ({
+                ...state,
+                notAuthenticated: true
             });
         default:
             return state;
