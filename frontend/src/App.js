@@ -9,8 +9,10 @@ import UpdateEvent from './components/updateEvent/UpdateEvent';
 import EventDetails from './components/eventDetails/EventDetails';
 import Filter from './components/filter/Filter';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { currentUser } from './redux/actions/accounts/accounts';
+import { history } from './redux/store';
 
 function App() {
 
@@ -22,7 +24,7 @@ function App() {
   }, []);
 
   return (
-    <Router>
+    <ConnectedRouter history={history}>
       <div className="App">
         <Route path='/' component={Navbar} />
         <Route path='/login' component={LoginForm} />
@@ -33,7 +35,7 @@ function App() {
         <ProtectedRoute path='/updateevent' component={UpdateEvent} user={user}/>
         <ProtectedRoute path='/eventdetails' component={EventDetails} user={user}/>
       </div>
-    </Router>
+    </ConnectedRouter>
   );
 }
 

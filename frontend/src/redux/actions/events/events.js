@@ -1,6 +1,7 @@
 import axios from "axios";
 import Geocode from "react-geocode";
 import { CREATED_EVENT, CREATE_EVENT_ERROR } from "../types";
+import { push } from 'connected-react-router';
 
 Geocode.setLocationType("ROOFTOP");
 Geocode.setApiKey(process.env.REACT_APP_API_KEY);
@@ -32,20 +33,19 @@ export const createEvent = (
             Authorization: `JWT ${localStorage.getItem('token')}`
         }
     }
-    console.log(latLong[0]);
-    console.log(latLong[1]);
     const res = await axios.post('http://127.0.0.1:8000/events/create/', {
         name: name,
         description: description,
         date_time: dateTime,
-        latitude: latLong[0],
-        longitude: latLong[1]
+        latitude: Math.round(latLong[0] * Math.pow(10, 6)) / Math.pow(10, 6),
+        longitude: Math.round(latLong[1] * Math.pow(10, 6)) / Math.pow(10, 6)
     }, options);
     console.log(res);
     dispatch({
         type: CREATED_EVENT,
         payload: res.data
     });
+    dispatch(push('/map'));
 } catch (err) {
     dispatch({
         type: CREATE_EVENT_ERROR,
