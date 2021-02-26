@@ -8,7 +8,7 @@ import CreateEvent from './components/createEvent/CreateEvent';
 import UpdateEvent from './components/updateEvent/UpdateEvent';
 import EventDetails from './components/eventDetails/EventDetails';
 import Filter from './components/filter/Filter';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { currentUser } from './redux/actions/accounts/accounts';
