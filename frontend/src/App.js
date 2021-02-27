@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import ProtectedRoute from './components/protectedRoute/ProtectedRoute';
 import Navbar from './components/navbar/Navbar';
 import MapContainer from './components/mapContainer/MapContainer';
 import LoginForm from './components/loginForm/LoginForm';
@@ -7,38 +8,34 @@ import CreateEvent from './components/createEvent/CreateEvent';
 import UpdateEvent from './components/updateEvent/UpdateEvent';
 import EventDetails from './components/eventDetails/EventDetails';
 import Filter from './components/filter/Filter';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
+import { useSelector, useDispatch } from 'react-redux';
+import { currentUser } from './redux/actions/accounts/accounts';
+import { history } from './redux/store';
 
 function App() {
+
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.accounts.currentUser);
+
+  useEffect(() => {
+    dispatch(currentUser());
+  }, []);
+
   return (
-    <Router>
+    <ConnectedRouter history={history}>
       <div className="App">
-        <Route path='/'>
-          <Navbar />
-        </Route>
-        <Route path='/map'>
-          <Filter />
-        </Route>
-        <Route path='/map'>
-          <MapContainer />
-        </Route>
-        <Route path='/login'>
-          <LoginForm />
-        </Route>
-        <Route path='/register'>
-          <RegisterForm />
-        </Route>
-        <Route path='/createevent'>
-          <CreateEvent />
-        </Route>
-        <Route path='/updateevent'>
-          <UpdateEvent />
-        </Route>
-        <Route path='/eventdetails'>
-          <EventDetails />
-        </Route>
+        <Route path='/' component={Navbar} />
+        <Route path='/login' component={LoginForm} />
+        <Route path='/register' component={RegisterForm} />
+        <ProtectedRoute path='/map' component={Filter} user={user}/>
+        <ProtectedRoute path='/map' component={MapContainer} user={user}/>
+        <ProtectedRoute path='/createevent' component={CreateEvent} user={user}/>
+        <ProtectedRoute path='/updateevent' component={UpdateEvent} user={user}/>
+        <ProtectedRoute path='/eventdetails' component={EventDetails} user={user}/>
       </div>
-    </Router>
+    </ConnectedRouter>
   );
 }
 
