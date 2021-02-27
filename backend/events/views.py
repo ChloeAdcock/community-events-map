@@ -16,6 +16,13 @@ class EventListview(generics.ListAPIView):
     serializer_class = EventSerializer
     queryset = Event.objects.all()
 
+class EventRetrieveView(generics.RetrieveAPIView):
+    serializer_class = EventSerializer
+    queryset = Event.objects.all()
+        permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
 class EventDeleteView(generics.DestroyAPIView):
     serializer_class = EventSerializer
     permission_classes = [
