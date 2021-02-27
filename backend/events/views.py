@@ -19,7 +19,7 @@ class EventListview(generics.ListAPIView):
 class EventRetrieveView(generics.RetrieveAPIView):
     serializer_class = EventSerializer
     queryset = Event.objects.all()
-        permission_classes = [
+    permission_classes = [
         permissions.IsAuthenticated,
     ]
 
