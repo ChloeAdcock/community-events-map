@@ -9,7 +9,6 @@ import {
     USER_AUTHENTICATED,
     USER_ERROR
 } from '../types';
-import { push } from 'connected-react-router';
 
 export const login = (data) => async (dispatch) => {
     try {
@@ -19,7 +18,6 @@ export const login = (data) => async (dispatch) => {
             type: LOGGED_IN,
             payload: res.data
         });
-        dispatch(push('/map'));
     } catch (err) {
         dispatch({
             type: LOGIN_ERROR,
@@ -36,7 +34,6 @@ export const register = (data) => async (dispatch) => {
             type: USER_REGISTERED,
             payload: res.data
         });
-        dispatch(push('/map'));
     } catch (err) {
         dispatch({
             type: REGISTER_ERROR,

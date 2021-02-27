@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Textfield from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { useDispatch } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../redux/actions/accounts/accounts';
 
 // Sort out when to validate text fields
@@ -19,6 +20,8 @@ function RegisterForm() {
         confirmPassword: false
     });
     const [confirmPassword, setConfirmPassword] = useState("");
+    const errorState = useSelector(state => state.accounts.error);
+    const user = useSelector(state => state.accounts.currentUser);
 
     const passwordsMatch = () => {
         if (password !== confirmPassword) {
@@ -90,53 +93,57 @@ function RegisterForm() {
         }
     }
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <Typography
-                varient='h1'>
-                Register
+    if (!errorState && user) {
+        return <Redirect to='/map' />
+    } else {
+        return (
+            <form onSubmit={handleSubmit}>
+                <Typography
+                    varient='h1'>
+                    Register
                 </Typography>
-            <Textfield
-                label='Username'
-                value={username}
-                onBlur={validateUsername}
-                error={fieldError.username}
-                onChange={e => setUsername(e.target.value)}
-                variant='outlined'
-                required />
-            <Textfield
-                label='Email'
-                error={fieldError.email}
-                onBlur={validEmail}
-                value={email}
-                variant='outlined'
-                onChange={e => setEmail(e.target.value)}
-                type='email'
-                required />
-            <Textfield
-                label='Password'
-                type='password'
-                error={fieldError.password}
-                onBlur={validPassword}
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                variant='outlined'
-                required />
-            <Textfield
-                label='Confirm password'
-                type='password'
-                value={confirmPassword}
-                onChange={e => setConfirmPassword(e.target.value)}
-                error={fieldError.confirmPassword}
-                onBlur={passwordsMatch}
-                variant='outlined'
-                required />
-            <Button
-                type='submit'>
-                Submit
+                <Textfield
+                    label='Username'
+                    value={username}
+                    onBlur={validateUsername}
+                    error={fieldError.username}
+                    onChange={e => setUsername(e.target.value)}
+                    variant='outlined'
+                    required />
+                <Textfield
+                    label='Email'
+                    error={fieldError.email}
+                    onBlur={validEmail}
+                    value={email}
+                    variant='outlined'
+                    onChange={e => setEmail(e.target.value)}
+                    type='email'
+                    required />
+                <Textfield
+                    label='Password'
+                    type='password'
+                    error={fieldError.password}
+                    onBlur={validPassword}
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    variant='outlined'
+                    required />
+                <Textfield
+                    label='Confirm password'
+                    type='password'
+                    value={confirmPassword}
+                    onChange={e => setConfirmPassword(e.target.value)}
+                    error={fieldError.confirmPassword}
+                    onBlur={passwordsMatch}
+                    variant='outlined'
+                    required />
+                <Button
+                    type='submit'>
+                    Submit
                 </Button>
-        </form>
-    )
+            </form>
+        )
+    }
 }
 
 export default RegisterForm;
