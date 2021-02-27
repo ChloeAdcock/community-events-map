@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -23,7 +22,9 @@ function Navbar() {
     <div>
       <AppBar position="fixed">
         <Toolbar>
-          <Typography variant="h6">Community Events</Typography>
+          <Button component={Link} to="/map" color="inherit">
+            Community Events
+          </Button>
           {user ? (
             <div>
               <Button
