@@ -13,16 +13,14 @@ function AllEvents() {
     const events = useSelector(state => state.events.events);
 
     const mapStyles = {
-        height: "100vh",
-        width: "100%"
+        height: "70vh",
+        width: "80%"
     };
 
     const handleClick = (selected) => {
         history.push({
             pathname: "/eventdetails",
-            state: {
-                response: selected
-            }
+            state: selected
         })
     }
 

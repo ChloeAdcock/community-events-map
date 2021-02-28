@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
 import MapContainer from '../mapContainer/MapContainer';
@@ -9,8 +10,9 @@ import { deleteEvent } from '../../redux/actions/events/events';
 function EventDetails(props) {
 
     const dispatch = useDispatch();
+    const history = useHistory();
     const [address, setAddress] = useState("");
-    const [selectedEvent, setSelectedEvent] = useState(props.history.location.state.response);
+    const [selectedEvent, setSelectedEvent] = useState(props.history.location.state);
     const [eventArray, setEventArray] = useState([]);
 
     useEffect(async () => {
@@ -21,6 +23,16 @@ function EventDetails(props) {
 
     const handleDelete = () => {
         dispatch(deleteEvent(selectedEvent.id));
+    }
+
+    const handleUpdate = () => {
+        history.push({
+            pathname: "/updateevent",
+            state: {
+                event: selectedEvent,
+                address: address
+            }
+        })
     }
 
     const mapStyles = {
@@ -37,7 +49,7 @@ function EventDetails(props) {
                 <Typography variant='h6'>{selectedEvent.date_time}</Typography>
                 <Typography variant='body1'>{selectedEvent.description}</Typography>
                 <Typography variant='body1'>{address}</Typography>
-                <Button>Update</Button>
+                <Button onClick={handleUpdate}>Update</Button>
                 <Button onClick={handleDelete}>Delete</Button>
                 <MapContainer events={eventArray} mapStyles={mapStyles} centre={{
                     lat: Number(selectedEvent.latitude), lng: Number(selectedEvent.longitude)
