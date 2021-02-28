@@ -41,13 +41,23 @@ function EventDetails(props) {
         width: "50%"
     };
 
+    const formatDateTime = () => {
+        const date = new Date(selectedEvent.date_time);
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const day = date.getDate();
+        const hour = date.getHours();
+        const minutes = date.getMinutes();
+        return `${day}/${month}/${year} ${hour}:${minutes}`
+    }
+
     if (!eventArray) {
         return <Typography>Loading...</Typography>
     } else {
         return (
             <div>
                 <Typography variant='h2'>{selectedEvent.name}</Typography>
-                <Typography variant='h6'>{selectedEvent.date_time}</Typography>
+                <Typography variant='h6'>{formatDateTime(selectedEvent.date_time)}</Typography>
                 <Typography variant='body1'>{selectedEvent.description}</Typography>
                 <Typography variant='body1'>{address}</Typography>
                 {user ?
