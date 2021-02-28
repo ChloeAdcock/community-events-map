@@ -7,36 +7,34 @@ import { addressFromLatLong } from '../../geocode/geocode';
 function EventDetails(props) {
 
     const [address, setAddress] = useState("");
-    const event = props.history.location.state.response;
-    const events = [];
+    const [selectedEvent, setSelectedEvent] = useState(props.history.location.state.response);
+    const [eventArray, setEventArray] = useState([]);
 
     useEffect(async () => {
-        const formattedAddress = await addressFromLatLong(event.latitude, event.longitude);
+        const formattedAddress = await addressFromLatLong(selectedEvent.latitude, selectedEvent.longitude);
         setAddress(formattedAddress);
+        setEventArray(oldArray => [...oldArray, selectedEvent]);
     }, []);
 
-    const convertToArray = (event) => {
-        events.push(event);
-        return events;
-    }
-
     const mapStyles = {
-        height: "100vh",
-        width: "100%"
+        height: "50vh",
+        width: "50%"
     };
 
-    if (!events) {
+    if (!eventArray) {
         return <Typography>Loading...</Typography>
     } else {
         return (
             <div>
-                <Typography variant='h2'>{event.name}</Typography>
-                <Typography variant='h6'>{event.date_time}</Typography>
-                <Typography variant='body1'>{event.description}</Typography>
+                <Typography variant='h2'>{selectedEvent.name}</Typography>
+                <Typography variant='h6'>{selectedEvent.date_time}</Typography>
+                <Typography variant='body1'>{selectedEvent.description}</Typography>
                 <Typography variant='body1'>{address}</Typography>
                 <Button>Update</Button>
                 <Button>Delete</Button>
-                <MapContainer events={convertToArray(event)} mapStyles={mapStyles}/>
+                <MapContainer events={eventArray} mapStyles={mapStyles} centre={{
+                    lat: Number(selectedEvent.latitude), lng: Number(selectedEvent.longitude)
+                }} />
             </div>
         )
     }

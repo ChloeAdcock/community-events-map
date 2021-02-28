@@ -6,9 +6,7 @@ import Button from '@material-ui/core/Button';
 function MapContainer(props) {
 
     const [selected, setSelected] = useState({});
-    const [centre, setCentre] = useState({
-        lat: 52.6309, lng: 1.2974
-    })
+    const [centre, setCentre] = useState(props.centre);
 
     const onSelect = event => {
         setSelected(event);

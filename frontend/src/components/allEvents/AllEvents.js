@@ -37,6 +37,9 @@ function AllEvents() {
                 mapStyles={mapStyles}
                 events={events}
                 handleClick={handleClick}
+                centre={{
+                    lat: 52.6309, lng: 1.2974
+                }}
             />}
         </div>
     )
