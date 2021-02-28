@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
@@ -10,6 +10,7 @@ import { deleteEvent } from '../../redux/actions/events/events';
 function EventDetails(props) {
 
     const dispatch = useDispatch();
+    const user = useSelector(state => state.accounts.currentUser);
     const history = useHistory();
     const [address, setAddress] = useState("");
     const [selectedEvent, setSelectedEvent] = useState(props.history.location.state);
@@ -49,8 +50,14 @@ function EventDetails(props) {
                 <Typography variant='h6'>{selectedEvent.date_time}</Typography>
                 <Typography variant='body1'>{selectedEvent.description}</Typography>
                 <Typography variant='body1'>{address}</Typography>
-                <Button onClick={handleUpdate}>Update</Button>
-                <Button onClick={handleDelete}>Delete</Button>
+                {user ?
+                    <div>
+                        <Button onClick={handleUpdate}>Update</Button>
+                        <Button onClick={handleDelete}>Delete</Button>
+                    </div>
+                    :
+                    <div />
+                }
                 <MapContainer events={eventArray} mapStyles={mapStyles} centre={{
                     lat: Number(selectedEvent.latitude), lng: Number(selectedEvent.longitude)
                 }} />

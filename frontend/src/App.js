@@ -28,10 +28,10 @@ function App() {
         <Route path='/' component={Navbar} />
         <Route path='/login' component={LoginForm} />
         <Route path='/register' component={RegisterForm} />
-        <ProtectedRoute path='/map' component={AllEvents} user={user}/>
+        <Route path='/map' component={AllEvents} user={user}/>
+        <Route path='/eventdetails' component={EventDetails} user={user}/>
         <ProtectedRoute path='/createevent' component={CreateEvent} user={user}/>
         <ProtectedRoute path='/updateevent' component={UpdateEvent} user={user}/>
-        <ProtectedRoute path='/eventdetails' component={EventDetails} user={user}/>
       </div>
     </ConnectedRouter>
   );
