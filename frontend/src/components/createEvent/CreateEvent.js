@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import EventForm from "../eventForm/EventForm";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createEvent } from "../../redux/actions/events/events";
 
 function CreateEvent() {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [dateTime, setDateTime] = useState("");
+  const [dateTime, setDateTime] = useState("2021-04-15T10:30:00Z");
   const [addLine1, setAddLine1] = useState("");
   const [city, setCity] = useState("");
   const [region, setRegion] = useState("");
@@ -32,6 +32,13 @@ function CreateEvent() {
           handleRegionChange={(e) => setRegion(e.target.value)}
           handlePostcodeChange={(e) => setPostcode(e.target.value)}
           handleSubmit={handleSubmit}
+          name={name}
+          description={description}
+          dateTime={dateTime}
+          addLine1={addLine1}
+          city={city}
+          region={region}
+          postcode={postcode}
         />
       </div>
     );

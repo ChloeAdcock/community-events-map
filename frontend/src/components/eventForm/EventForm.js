@@ -7,6 +7,7 @@ function EventForm(props) {
     <form onSubmit={props.handleSubmit}>
       <Textfield
         label="Name"
+        value={props.name}
         variant="outlined"
         required
         onChange={props.handleNameChange}
@@ -14,6 +15,7 @@ function EventForm(props) {
       <Textfield
         label="Description"
         variant="outlined"
+        value={props.description}
         required
         multiline
         onChange={props.handleDescriptionChange}
@@ -22,30 +24,34 @@ function EventForm(props) {
         variant="outlined"
         required
         type="datetime-local"
-        defaultValue="2021-05-24T10:30"
+        defaultValue={props.dateTime.slice(0, -1)}
         onChange={props.handleDateTimeChange}
       />
       <Textfield
         label="Address line 1"
         variant="outlined"
         required
+        value={props.addLine1}
         onChange={props.handleAddLine1Change}
       />
       <Textfield
         label="City"
         variant="outlined"
+        value={props.city}
         required
         onChange={props.handleCityChange}
       />
       <Textfield
         label="Region"
         variant="outlined"
+        value={props.region}
         required
         onChange={props.handleRegionChange}
       />
       <Textfield
         label="Postcode"
         variant="outlined"
+        value={props.postcode}
         required
         onChange={props.handlePostcodeChange}
       />
