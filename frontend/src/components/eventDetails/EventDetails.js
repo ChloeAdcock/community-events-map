@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from "react-redux";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
 import MapContainer from '../mapContainer/MapContainer';
 import { addressFromLatLong } from '../../geocode/geocode';
+import { deleteEvent } from '../../redux/actions/events/events';
 
 function EventDetails(props) {
 
+    const dispatch = useDispatch();
     const [address, setAddress] = useState("");
     const [selectedEvent, setSelectedEvent] = useState(props.history.location.state.response);
     const [eventArray, setEventArray] = useState([]);
@@ -15,6 +18,10 @@ function EventDetails(props) {
         setAddress(formattedAddress);
         setEventArray(oldArray => [...oldArray, selectedEvent]);
     }, []);
+
+    const handleDelete = () => {
+        dispatch(deleteEvent(selectedEvent.id));
+    }
 
     const mapStyles = {
         height: "50vh",
@@ -31,7 +38,7 @@ function EventDetails(props) {
                 <Typography variant='body1'>{selectedEvent.description}</Typography>
                 <Typography variant='body1'>{address}</Typography>
                 <Button>Update</Button>
-                <Button>Delete</Button>
+                <Button onClick={handleDelete}>Delete</Button>
                 <MapContainer events={eventArray} mapStyles={mapStyles} centre={{
                     lat: Number(selectedEvent.latitude), lng: Number(selectedEvent.longitude)
                 }} />

@@ -3,7 +3,9 @@ import {
   CREATED_EVENT,
   CREATE_EVENT_ERROR,
   GET_ALL_EVENTS,
-  GET_EVENTS_ERROR
+  GET_EVENTS_ERROR,
+  DELETE_EVENT,
+  DELETE_EVENT_ERROR
 } from "../types";
 import { push } from 'connected-react-router';
 import { latLongFromAddress } from '../../../geocode/geocode';
@@ -61,5 +63,26 @@ export const getEvents = () => async (dispatch) => {
       type: GET_EVENTS_ERROR,
       payload: err
     })
+  }
+}
+
+export const deleteEvent = (eventId) => async (dispatch) => {
+  try {
+    const options = {
+      headers: {
+        Authorization: `JWT ${localStorage.getItem('token')}`
+      }
+    }
+    const res = await axios.delete(`http://127.0.0.1:8000/events/delete/${eventId}`, options);
+    dispatch({
+      type: DELETE_EVENT,
+      payload: res.data
+    });
+    dispatch(push('/map'));
+  } catch (err) {
+    dispatch({
+      type: DELETE_EVENT_ERROR,
+      payload: err
+    });
   }
 }
