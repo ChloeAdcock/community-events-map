@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import EventForm from "../eventForm/EventForm";
+import { updateEvent } from "../../redux/actions/events/events";
 
 function UpdateEvent(props) {
   const dispatch = useDispatch();
@@ -25,6 +26,22 @@ function UpdateEvent(props) {
     }`
   );
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(
+      updateEvent(
+        selectedEvent.id,
+        name,
+        description,
+        dateTime,
+        addLine1,
+        city,
+        region,
+        postcode
+      )
+    );
+  };
+
   return (
     <div>
       <Typography variant="h2">Update Event</Typography>
@@ -36,6 +53,7 @@ function UpdateEvent(props) {
         handleCityChange={(e) => setCity(e.target.value)}
         handleRegionChange={(e) => setRegion(e.target.value)}
         handlePostcodeChange={(e) => setPostcode(e.target.value)}
+        handleSubmit={handleSubmit}
         name={name}
         description={description}
         dateTime={dateTime}
